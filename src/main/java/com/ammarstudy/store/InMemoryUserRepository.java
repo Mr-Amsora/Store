@@ -13,5 +13,6 @@ public class InMemoryUserRepository implements UserRepository {
             System.out.println("User with email " + user.getEmail() + " already exists. Updating existing user.");
         }
         users.put(user.getEmail(), user);
+        //generate a unique ID for the user
     }
 }
