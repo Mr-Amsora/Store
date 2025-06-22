@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: Store
+sms:
+  name: ammar
+
+payment-gateway: stripe
+server:
+  port: 8080
+logging:
+  localhost: localhost
