@@ -1,11 +1,16 @@
 spring:
     application:
         name: Store
-sms:
-  name: ammar
+    datasource:
+      url: jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true
+      username: root
+      password: root
 
 payment-gateway: stripe
+
 server:
   port: 8080
+
 logging:
   localhost: localhost
+
