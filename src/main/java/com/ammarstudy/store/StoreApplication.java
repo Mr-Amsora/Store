@@ -1,33 +1,42 @@
 package com.ammarstudy.store;
 
-import com.ammarstudy.store.entities.Address;
-import com.ammarstudy.store.entities.Profile;
-import com.ammarstudy.store.entities.User;
+import com.ammarstudy.store.entities.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+
+import java.math.BigDecimal;
 
 @SpringBootApplication
 public class StoreApplication {
 
     public static void main(String[] args) {
-        //ApplicationContext context = SpringApplication.run(StoreApplication.class, args);
-        var user =User.builder().id(1L)
-                 .name("Ammar")
-                 .email("ammar@gmail.com")
-                 .password("123456")
-                 .build();
-        var address = Address.builder()
-                .id(1L)
-                .street("123 Main St")
-                .city("Anytown")
-                .state("CA")
-                .zip("12345")
-                .build();
-        user.addAddress(address);
-        var profile = Profile.builder().id(1L).bio("bio").build();
-        user.setProfile(profile);
-        profile.setUser(user);
-        System.out.println(user);
+        ApplicationContext context = SpringApplication.run(StoreApplication.class, args);
+        var productRepository = context.getBean("productRepository", com.ammarstudy.store.repositories.ProductRepository.class);
+        var categoryRepository = context.getBean("categoryRepository", com.ammarstudy.store.repositories.CategoryRepository.class);
+
+        // Fetch the "hell" category from the database
+        var hellCategory = categoryRepository.findByName("hell");
+
+        // Check if the product exists
+        var existingProduct = productRepository.findById(1L).orElse(null);
+        if (existingProduct != null) {
+            // Update the existing product
+            existingProduct.setName("Updated Product 1");
+            existingProduct.setPrice(200);
+            existingProduct.setCategory((Category) hellCategory); // Set the category
+            productRepository.save(existingProduct);
+        } else {
+            // Create a new product with the "hell" category
+            var product1 = Product.builder()
+                    .name("Product 1")
+                    .price(100)
+                    .category((Category) hellCategory) // Set the category
+                    .build();
+            productRepository.save(product1);
+        }
+
+        // Verify the saved products
+        productRepository.findAll().forEach(System.out::println);
     }
 }

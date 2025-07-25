@@ -1,16 +1,26 @@
 spring:
-    application:
-        name: Store
-    datasource:
-      url: jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true
-      username: root
-      password: root
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        use_sql_comments: true
+  application:
+    name: Store
 
-payment-gateway: stripe
+  datasource:
+    url: jdbc:mysql://localhost:3306/store?createDatabaseIfNotExist=true
+    username: root
+    password: root
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.orm.jdbc.extract: TRACE
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
 
 server:
   port: 8080
-
-logging:
-  localhost: localhost
-
