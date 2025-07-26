@@ -15,10 +15,8 @@ public class StoreApplication {
         var productRepository = context.getBean("productRepository", com.ammarstudy.store.repositories.ProductRepository.class);
         var categoryRepository = context.getBean("categoryRepository", com.ammarstudy.store.repositories.CategoryRepository.class);
 
-        // Fetch the "hell" category from the database
         var hellCategory = categoryRepository.findByName("hell");
 
-        // Check if the product exists
         var existingProduct = productRepository.findById(1L).orElse(null);
         if (existingProduct != null) {
             // Update the existing product
@@ -27,7 +25,6 @@ public class StoreApplication {
             existingProduct.setCategory((Category) hellCategory); // Set the category
             productRepository.save(existingProduct);
         } else {
-            // Create a new product with the "hell" category
             var product1 = Product.builder()
                     .name("Product 1")
                     .price(100)
@@ -36,7 +33,6 @@ public class StoreApplication {
             productRepository.save(product1);
         }
 
-        // Verify the saved products
         productRepository.findAll().forEach(System.out::println);
     }
 }
